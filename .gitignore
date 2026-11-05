@@ -1,0 +1,14 @@
+# Ігноруємо всі файли та старі папки, крім lab8, lab9 та README
+/*
+!/lab8
+!/lab8/**
+!/lab9
+!/lab9/**
+!/README.md
+!/.gitignore
+
+# Службові файли IDE та Word
+.idea/
+*.docx
+*.doc
+~$*
