@@ -1,0 +1,279 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background: radial-gradient(ellipse at center, #752327 0%, #010101 65%, #000000 100%);
+    color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-container {
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Верхня панель */
+.top-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.player-title {
+    margin: 0;
+    font-size: 28px;
+    font-weight: bold;
+    color: #ffffff;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+}
+
+.attempt-badge {
+    font-size: 16px;
+    font-style: italic;
+    color: #e0e0e0;
+}
+
+/* Зелена кнопка Generate */
+.btn-generate {
+    background-color: #00ff00;
+    color: #000000;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: inherit;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 36px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    transition: background-color 0.15s, transform 0.1s;
+}
+
+.btn-generate:hover {
+    background-color: #00dd00;
+}
+
+.btn-generate:active {
+    transform: scale(0.96);
+}
+
+.btn-generate:disabled {
+    background-color: #444444;
+    color: #888888;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* Оболонка автомата та важеля */
+.slot-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin: 20px 0;
+}
+
+/* Корпус автомата */
+.slot-machine {
+    background-color: #010101;
+    border: 2px solid #C14545;
+    border-radius: 16px;
+    padding: 14px;
+    display: flex;
+    gap: 10px;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(117, 35, 39, 0.4);
+}
+
+/* Барабани */
+.reel {
+    width: 105px;
+    height: 180px;
+    background-color: #ffffff;
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.4);
+    transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.reel.winner {
+    box-shadow: 0 0 15px #C14545, inset 0 0 10px rgba(193, 69, 69, 0.4);
+}
+
+.reel-strip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+/* Стрічка символів під час прокрутки */
+.reel-strip.spinning {
+    animation: spinAnimation 0.15s linear infinite;
+}
+
+@keyframes spinAnimation {
+    0%   { transform: translateY(0); }
+    100% { transform: translateY(-80px); }
+}
+
+.reel-symbol {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.reel-symbol img {
+    width: 58px;
+    height: 58px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
+}
+
+/* Градієнт циліндра зверху і знизу */
+.reel-shadow {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: 6px;
+    background: linear-gradient(180deg, #494949 0%, rgba(145, 145, 145, 0) 41%, rgba(145, 145, 145, 0) 70%, #494949 100%);
+}
+
+/* Лінія виграшу */
+.payline {
+    position: absolute;
+    left: 14px;
+    right: 14px;
+    top: 50%;
+    height: 3px;
+    background-color: #C14545;
+    box-shadow: 0 0 10px #C14545;
+    transform: translateY(-50%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 5;
+}
+
+.payline.active {
+    opacity: 1;
+}
+
+/* Важіль */
+.lever-track {
+    width: 58px;
+    height: 150px;
+    background-color: #010101;
+    border: 2px solid #C14545;
+    border-radius: 50px;
+    padding: 6px;
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+}
+
+.lever-knob {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #ffffff 0%, #D9D9D9 84%, #9D9D9D 100%);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+    transition: transform 0.25s ease;
+}
+
+.lever-track.pulled .lever-knob {
+    transform: translateY(92px);
+}
+
+/* Статус гри */
+.status-box {
+    font-size: 16px;
+    font-weight: bold;
+    min-height: 24px;
+    margin-bottom: 14px;
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    transition: color 0.2s;
+}
+
+/* Кнопка "Грати знову" */
+.btn-restart {
+    background-color: #C14545;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: bold;
+    font-family: inherit;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    transition: background-color 0.2s;
+}
+
+.btn-restart:hover {
+    background-color: #752327;
+}
+
+/* Адаптивність */
+@media (max-width: 540px) {
+    .slot-wrapper {
+        gap: 10px;
+    }
+
+    .slot-machine {
+        padding: 10px;
+        gap: 6px;
+    }
+
+    .reel {
+        width: 85px;
+        height: 160px;
+    }
+
+    .reel-symbol {
+        height: 70px;
+    }
+
+    .reel-symbol img {
+        width: 48px;
+        height: 48px;
+    }
+
+    .lever-track {
+        width: 48px;
+        height: 130px;
+    }
+
+    .lever-knob {
+        width: 34px;
+        height: 34px;
+    }
+
+    .lever-track.pulled .lever-knob {
+        transform: translateY(80px);
+    }
+}
