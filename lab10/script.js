@@ -49,12 +49,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Доступні картинки
     const symbols = [
-        { id: "money_bag", src: "images/money_bag.svg", name: "Мішок грошей" },
-        { id: "peach",     src: "images/peach.svg",     name: "Персик" },
-        { id: "apple",     src: "images/apple.svg",     name: "Яблуко" },
-        { id: "lemon",     src: "images/lemon.svg",     name: "Лимон" },
-        { id: "cherries",  src: "images/cherries.svg",  name: "Вишні" },
-        { id: "pear",      src: "images/pear.svg",      name: "Груша" }
+        { id: "money_bag", src: "images/money-bag_1f4b0.png",       name: "Мішок грошей" },
+        { id: "peach",     src: "images/peach_1f351.png",           name: "Персик" },
+        { id: "lemon",     src: "images/lemon_1f34b.png",           name: "Лимон" },
+        { id: "cherries",  src: "images/cherries_1f352.png",        name: "Вишні" },
+        { id: "grapes",    src: "images/grapes_1f347.png",          name: "Виноград" },
+        { id: "pepper",    src: "images/hot-pepper_1f336-fe0f.png", name: "Перець" }
     ];
 
     // Відображення 3 картинок у барабані
@@ -124,7 +124,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Перевірка умови виграшу (ряд однакових картинок)
     const checkGameResult = () => {
-        // Перевіряємо всі 3 горизонтальні ряди (0 - верхній, 1 - центральний, 2 - нижній)
         let winningRow = -1;
         for (let row = 0; row < 3; row++) {
             if (
