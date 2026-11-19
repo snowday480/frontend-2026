@@ -1,11 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const userNameEl = document.querySelector("#user-name");
-    const attemptInfoEl = document.querySelector("#attempt-info");
-    const generateBtn = document.querySelector("#generate-btn");
-    const restartBtn = document.querySelector("#restart-btn");
+    const balanceInput = document.querySelector("#balance-input");
+    const betInput = document.querySelector("#bet-input");
     const statusEl = document.querySelector("#game-status");
-    const paylineEl = document.querySelector("#payline");
+    const gameOverBoxEl = document.querySelector("#game-over-box");
+    const resetBalanceBtn = document.querySelector("#reset-balance-btn");
     const leverTrackEl = document.querySelector("#lever-track");
+    const leverKnobEl = document.querySelector("#lever-knob");
 
     const strips = [
         document.querySelector("#strip-1"),
@@ -18,168 +18,236 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector("#reel-3")
     ];
 
-    let userName = "User";
-    let attempt = 0;
-    let isSpinning = false;
-    let hasWon = false;
-    const MAX_ATTEMPTS = 3;
-
-    // Валідація введення імені
-    const askUserName = () => {
-        let name = "";
-        while (!name) {
-            let input = prompt("Введіть ваше ім'я:");
-            if (input === null) {
-                name = "User";
-                break;
-            }
-
-            input = input.trim();
-            if (input.length < 2) {
-                alert("Ім'я повинно містити щонайменше 2 символи! Спробуйте ще раз.");
-            } else {
-                name = input;
-            }
-        }
-        userName = name;
-        userNameEl.textContent = userName;
-    };
-
-    setTimeout(askUserName, 150);
-
-    // Доступні картинки
     const symbols = [
-        { id: "money_bag", src: "images/money-bag_1f4b0.png",       name: "Мішок грошей" },
-        { id: "peach",     src: "images/peach_1f351.png",           name: "Персик" },
-        { id: "lemon",     src: "images/lemon_1f34b.png",           name: "Лимон" },
-        { id: "cherries",  src: "images/cherries_1f352.png",        name: "Вишні" },
-        { id: "grapes",    src: "images/grapes_1f347.png",          name: "Виноград" },
-        { id: "pepper",    src: "images/hot-pepper_1f336-fe0f.png", name: "Перець" }
+        { id: "money_bag", src: "images/money-bag_1f4b0.png" },
+        { id: "peach",     src: "images/peach_1f351.png" },
+        { id: "lemon",     src: "images/lemon_1f34b.png" },
+        { id: "cherries",  src: "images/cherries_1f352.png" },
+        { id: "grapes",    src: "images/grapes_1f347.png" },
+        { id: "pepper",    src: "images/hot-pepper_1f336-fe0f.png" }
     ];
 
-    // Відображення 3 картинок у барабані
+    let initialBalance = 1000;
+    let balance = 1000;
+    let bet = 50;
+    let isSpinning = false;
+    let gameStarted = false;
+
+    // Введення початкового балансу
+    balanceInput.addEventListener("change", () => {
+        if (gameStarted) return;
+        const val = parseInt(balanceInput.value, 10);
+        if (val > 0) {
+            balance = val;
+            initialBalance = val;
+        } else {
+            balanceInput.value = initialBalance;
+        }
+    });
+
+    // Зміна ставки
+    betInput.addEventListener("change", () => {
+        const val = parseInt(betInput.value, 10);
+        if (val > 0) {
+            bet = val;
+        } else {
+            betInput.value = bet;
+        }
+    });
+
+    // Малювання картинок у барабані
     const renderReel = (stripEl, items) => {
         stripEl.innerHTML = "";
         items.forEach(item => {
-            const symDiv = document.createElement("div");
-            symDiv.className = "reel-symbol";
+            const div = document.createElement("div");
+            div.className = "reel-symbol";
             const img = document.createElement("img");
             img.src = item.src;
-            img.alt = item.name;
-            symDiv.appendChild(img);
-            stripEl.appendChild(symDiv);
+            div.appendChild(img);
+            stripEl.appendChild(div);
         });
     };
 
-    // Генерація 3 неповторюваних картинок для одного барабана
-    const getRandomColumn = () => {
-        const shuffled = [...symbols].sort(() => Math.random() - 0.5);
-        return [shuffled[0], shuffled[1], shuffled[2]];
-    };
+    const getRandomSymbol = () => symbols[Math.floor(Math.random() * symbols.length)];
 
-    // Початковий стан барабанів
+    // 3 випадкові картинки для одного барабана
+    const getRandomColumn = () => [getRandomSymbol(), getRandomSymbol(), getRandomSymbol()];
+
+    // Початкове заповнення барабанів
     let currentGrid = [getRandomColumn(), getRandomColumn(), getRandomColumn()];
     strips.forEach((strip, i) => renderReel(strip, currentGrid[i]));
 
-    // Запуск обертання
+    // Запуск оберту
     const spin = () => {
-        if (isSpinning || attempt >= MAX_ATTEMPTS || hasWon) return;
+        if (isSpinning || balance <= 0) return;
+
+        const currentBet = parseInt(betInput.value, 10);
+        if (isNaN(currentBet) || currentBet <= 0) {
+            statusEl.textContent = "Введіть коректну ставку!";
+            return;
+        }
+        if (currentBet > balance) {
+            statusEl.textContent = "Недостатньо коштів на балансі!";
+            return;
+        }
+        bet = currentBet;
+
+        // Блок баланса
+        if (!gameStarted) {
+            gameStarted = true;
+            balanceInput.readOnly = true;
+            balanceInput.classList.add("locked");
+        }
 
         isSpinning = true;
-        attempt++;
-        attemptInfoEl.textContent = `Спроба ${attempt} з ${MAX_ATTEMPTS}`;
+        betInput.disabled = true;
+        leverTrackEl.classList.add("disabled");
 
-        // Анімація важеля
-        leverTrackEl.classList.add("pulled");
-        setTimeout(() => leverTrackEl.classList.remove("pulled"), 250);
+        balance -= bet;
+        balanceInput.value = balance;
 
-        generateBtn.disabled = true;
-        paylineEl.classList.remove("active");
         reels.forEach(r => r.classList.remove("winner"));
         statusEl.textContent = "Барабани крутяться...";
-        statusEl.style.color = "#ffffff";
 
-        // Анімація прокрутки для кожного барабана
-        strips.forEach(s => s.classList.add("spinning"));
+        // 6 картинок повторено двічі = 12 картинок
+        const loopTrack = [...symbols, ...symbols];
+        strips.forEach(strip => {
+            renderReel(strip, loopTrack);
+            strip.classList.add("spinning");
+        });
 
-        // Нові результати (по вертикалі картинки не повторюються)
-        const newGrid = [getRandomColumn(), getRandomColumn(), getRandomColumn()];
+        // Визн результат
+        let newGrid;
+        if (Math.random() < 0.25) {
+            const winSym = getRandomSymbol();
+            newGrid = [
+                [getRandomSymbol(), winSym, getRandomSymbol()],
+                [getRandomSymbol(), winSym, getRandomSymbol()],
+                [getRandomSymbol(), winSym, getRandomSymbol()]
+            ];
+        } else {
+            newGrid = [getRandomColumn(), getRandomColumn(), getRandomColumn()];
+        }
 
-        // Почергова зупинка барабанів
-        const stopDelays = [400, 600, 800];
+        const stopDelays = [1000, 1800, 2600];
+
         stopDelays.forEach((delay, index) => {
             setTimeout(() => {
-                strips[index].classList.remove("spinning");
-                renderReel(strips[index], newGrid[index]);
+                strips[index].classList.remove("spinning"); // вимикаємо крутку
+                renderReel(strips[index], newGrid[index]);   // ставимо фінальні 3 картинки
+                strips[index].classList.add("landing");      // додаємо плавний відскок
 
-                // Коли зупинився останній барабан
+                setTimeout(() => {
+                    strips[index].classList.remove("landing");
+                }, 350);
+
+                // Зупинився останній барабан
                 if (index === 2) {
                     currentGrid = newGrid;
                     isSpinning = false;
+                    betInput.disabled = false;
                     checkGameResult();
                 }
             }, delay);
         });
     };
 
-    // Перевірка умови виграшу (ряд однакових картинок)
+    // Перевірка результату
     const checkGameResult = () => {
-        let winningRow = -1;
-        for (let row = 0; row < 3; row++) {
-            if (
-                currentGrid[0][row].id === currentGrid[1][row].id &&
-                currentGrid[1][row].id === currentGrid[2][row].id
-            ) {
-                winningRow = row;
-                break;
-            }
-        }
+        const isWin = (
+            currentGrid[0][1].id === currentGrid[1][1].id &&
+            currentGrid[1][1].id === currentGrid[2][1].id
+        );
 
-        if (winningRow !== -1) {
-            hasWon = true;
-            generateBtn.disabled = true;
-            restartBtn.style.display = "inline-block";
-            paylineEl.classList.add("active");
+        if (isWin) {
+            const winAmount = bet * 5;
+            balance += winAmount;
+            balanceInput.value = balance;
+
             reels.forEach(r => r.classList.add("winner"));
-
-            statusEl.textContent = `🎉 ПЕРЕМОГА! ${userName} вибив однаковий ряд!`;
-            statusEl.style.color = "#00ff00";
+            leverTrackEl.classList.remove("disabled");
+            statusEl.textContent = `ПЕРЕМОГА! +${winAmount} $`;
             return;
         }
 
-        // Завершення гри після 3 спроб без перемоги
-        if (attempt >= MAX_ATTEMPTS) {
-            generateBtn.disabled = true;
-            restartBtn.style.display = "inline-block";
-            statusEl.textContent = "3 спроби вичерпано. Спробуйте ще раз!";
-            statusEl.style.color = "#ff6666";
+        // гроші всьо
+        if (balance <= 0) {
+            statusEl.style.display = "none";
+            gameOverBoxEl.style.display = "flex";
+            leverTrackEl.classList.add("disabled");
         } else {
-            generateBtn.disabled = false;
-            statusEl.textContent = `Спроба ${attempt} з ${MAX_ATTEMPTS}: однаковий ряд не випав`;
-            statusEl.style.color = "#ffffff";
+            leverTrackEl.classList.remove("disabled");
+            statusEl.textContent = `Не пощастило (-${bet} $). Потягніть важіль ще раз!`;
         }
     };
 
-    // Перезапуск гри
-    restartBtn.addEventListener("click", () => {
-        attempt = 0;
-        hasWon = false;
-        isSpinning = false;
+    // Перетягування важеля вниз
+    let isDragging = false;
+    let startY = 0;
+    let currentDragY = 0;
+    const maxDrag = 94;
 
-        attemptInfoEl.textContent = "Спроба 0 з 3";
-        statusEl.textContent = "Натисніть 'Generate' або потягніть важіль";
-        statusEl.style.color = "#ffffff";
-
-        paylineEl.classList.remove("active");
-        reels.forEach(r => r.classList.remove("winner"));
-
-        generateBtn.disabled = false;
-        restartBtn.style.display = "none";
-
-        currentGrid = [getRandomColumn(), getRandomColumn(), getRandomColumn()];
-        strips.forEach((strip, i) => renderReel(strip, currentGrid[i]));
+    leverKnobEl.addEventListener("pointerdown", (e) => {
+        if (isSpinning || balance <= 0) return;
+        isDragging = true;
+        startY = e.clientY;
+        currentDragY = 0;
+        leverKnobEl.classList.add("dragging");
+        leverKnobEl.setPointerCapture(e.pointerId);
     });
 
-    generateBtn.addEventListener("click", spin);
-    leverTrackEl.addEventListener("click", spin);
+    leverKnobEl.addEventListener("pointermove", (e) => {
+        if (!isDragging) return;
+        const delta = Math.max(0, Math.min(e.clientY - startY, maxDrag));
+        currentDragY = delta;
+        leverKnobEl.style.transform = `translateY(${delta}px)`;
+    });
+
+    const finishDrag = () => {
+        if (!isDragging) return;
+        isDragging = false;
+        leverKnobEl.classList.remove("dragging");
+
+        // Якщо потягнули хоча б на половину або просто клікнули
+        if (currentDragY >= maxDrag * 0.5 || currentDragY < 6) {
+            leverKnobEl.style.transform = `translateY(${maxDrag}px)`;
+            spin();
+            setTimeout(() => {
+                leverKnobEl.style.transform = "translateY(0px)";
+            }, 250);
+        } else {
+            leverKnobEl.style.transform = "translateY(0px)";
+        }
+        currentDragY = 0;
+    };
+
+    leverKnobEl.addEventListener("pointerup", finishDrag);
+    leverKnobEl.addEventListener("pointercancel", finishDrag);
+
+    // клік запуску
+    leverTrackEl.addEventListener("click", (e) => {
+        if (e.target === leverKnobEl || isSpinning || balance <= 0) return;
+        leverKnobEl.style.transform = `translateY(${maxDrag}px)`;
+        spin();
+        setTimeout(() => {
+            leverKnobEl.style.transform = "translateY(0px)";
+        }, 250);
+    });
+
+    // відновлення балансу
+    resetBalanceBtn.addEventListener("click", () => {
+        balance = initialBalance;
+        balanceInput.value = balance;
+        balanceInput.readOnly = false;
+        balanceInput.classList.remove("locked");
+        gameStarted = false;
+
+        gameOverBoxEl.style.display = "none";
+        statusEl.style.display = "block";
+        statusEl.textContent = "Потягніть важіль вниз!";
+
+        reels.forEach(r => r.classList.remove("winner"));
+        leverTrackEl.classList.remove("disabled");
+        leverKnobEl.style.transform = "translateY(0px)";
+    });
 });

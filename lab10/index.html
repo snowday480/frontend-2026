@@ -8,18 +8,20 @@
 </head>
 <body>
     <div class="game-container">
-        <!-- Верхня панель: Гравець та спроби -->
-        <div class="top-panel">
-            <h1 class="player-title" id="user-name">User</h1>
-            <div class="attempt-badge" id="attempt-info">Спроба 0 з 3</div>
-            <button id="generate-btn" class="btn-generate">Generate</button>
+
+        <div class="control-panel">
+            <div class="panel-card">
+                <label for="balance-input" class="panel-label">Баланс ($)</label>
+                <input type="number" id="balance-input" class="panel-input" value="1000" min="1" step="10">
+            </div>
+            <div class="panel-card">
+                <label for="bet-input" class="panel-label">Ставка на крутку ($)</label>
+                <input type="number" id="bet-input" class="panel-input" value="50" min="1" step="10">
+            </div>
         </div>
 
-        <!-- Ігровий автомат -->
         <div class="slot-wrapper">
-            <!-- Корпус автомата -->
             <div class="slot-machine">
-                <!-- 3 барабани -->
                 <div class="reel" id="reel-1">
                     <div class="reel-strip" id="strip-1"></div>
                     <div class="reel-shadow"></div>
@@ -32,20 +34,18 @@
                     <div class="reel-strip" id="strip-3"></div>
                     <div class="reel-shadow"></div>
                 </div>
-
-                <!-- Лінія виграшу по центру -->
-                <div class="payline" id="payline"></div>
             </div>
-
-            <!-- Важіль "Однорукого бандита" -->
-            <div class="lever-track" id="lever-track" title="Потягніть важіль!">
+            <div class="lever-track" id="lever-track" title="Потягніть важіль вниз!">
                 <div class="lever-knob" id="lever-knob"></div>
             </div>
         </div>
 
-        <!-- Статус гри та кнопка перезапуску -->
-        <div class="status-box" id="game-status">Натисніть "Generate" або потягніть важіль</div>
-        <button id="restart-btn" class="btn-restart" style="display: none;">Грати знову</button>
+        <div class="status-box" id="game-status">Потягніть важіль вниз!</div>
+
+        <div class="game-over-box" id="game-over-box" style="display: none;">
+            <div class="game-over-title">ПРОГРАНО</div>
+            <button id="reset-balance-btn" class="btn-reset-balance">Поповнити баланс</button>
+        </div>
     </div>
 
     <script src="script.js"></script>
