@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторні роботи — Frontend 2026</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "SF Pro Text", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #e0e2ec;
+            color: #0f1c31;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 32px 16px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .hub-container {
+            width: 100%;
+            max-width: 520px;
+            background-color: #ffffff;
+            border-radius: 28px;
+            padding: 32px 24px;
+            box-shadow: 0 12px 35px rgba(15, 28, 49, 0.08);
+            border: 2px solid #525f77;
+        }
+
+        .hub-header {
+            text-align: center;
+            margin-bottom: 26px;
+        }
+
+        .author-badge {
+            display: inline-block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #525f77;
+            background-color: #ecf0ff;
+            padding: 6px 16px;
+            border-radius: 50px;
+            border: 1.5px solid #525f77;
+            margin-bottom: 12px;
+        }
+
+        .hub-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0f1c31;
+            letter-spacing: -0.4px;
+        }
+
+        .hub-subtitle {
+            font-size: 14px;
+            color: #505565;
+            margin-top: 4px;
+        }
+
+        .labs-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .lab-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #ecf0ff;
+            border: 2px solid #525f77;
+            border-radius: 20px;
+            padding: 16px 20px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.15s ease;
+        }
+
+        .lab-card:hover {
+            background-color: #dfe7fc;
+            transform: translateY(-1px);
+        }
+
+        .lab-info {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .lab-number {
+            font-size: 12px;
+            font-weight: 700;
+            color: #525f77;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+
+        .lab-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #0f1c31;
+        }
+
+        .lab-tech {
+            font-size: 12px;
+            color: #505565;
+        }
+
+        .lab-arrow {
+            width: 32px;
+            height: 32px;
+            border-radius: 16px;
+            background-color: #ffffff;
+            border: 1.5px solid #525f77;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 700;
+            color: #0f1c31;
+            transition: all 0.15s ease;
+            flex-shrink: 0;
+            margin-left: 12px;
+        }
+
+        .lab-card:hover .lab-arrow {
+            background-color: #525f77;
+            color: #ffffff;
+        }
+
+        .hub-footer {
+            margin-top: 24px;
+            text-align: center;
+            font-size: 12px;
+            color: #717789;
+        }
+
+        @media (max-width: 480px) {
+            .hub-container {
+                padding: 24px 16px;
+                border-radius: 22px;
+            }
+
+            .hub-title {
+                font-size: 20px;
+            }
+
+            .lab-card {
+                padding: 14px 16px;
+            }
+
+            .lab-name {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hub-container">
+        <header class="hub-header">
+            <div class="author-badge">Владислав Соловйов · Група 108-А</div>
+            <h1 class="hub-title">Лабораторні роботи</h1>
+            <p class="hub-subtitle">Курс «Frontend-розробка 2026»</p>
+        </header>
+
+        <nav class="labs-list">
+            <a href="lab8/" class="lab-card">
+                <div class="lab-info">
+                    <span class="lab-number">Лабораторна робота № 8</span>
+                    <span class="lab-name">Гра «Більше число»</span>
+                    <span class="lab-tech">JavaScript · DOM Events · Генерація випадкових чисел</span>
+                </div>
+                <div class="lab-arrow">→</div>
+            </a>
+
+            <a href="lab9/" class="lab-card">
+                <div class="lab-info">
+                    <span class="lab-number">Лабораторна робота № 9</span>
+                    <span class="lab-name">Картярська гра «21»</span>
+                    <span class="lab-tech">JavaScript · Ігрова логіка · Колода карт</span>
+                </div>
+                <div class="lab-arrow">→</div>
+            </a>
+
+            <a href="lab10/" class="lab-card">
+                <div class="lab-info">
+                    <span class="lab-number">Лабораторна робота № 10</span>
+                    <span class="lab-name">Однорукий бандит (Слот-машина)</span>
+                    <span class="lab-tech">JavaScript · Анімація барабанів · Баланс і ставки</span>
+                </div>
+                <div class="lab-arrow">→</div>
+            </a>
+
+            <a href="lab11/" class="lab-card">
+                <div class="lab-info">
+                    <span class="lab-number">Лабораторна робота № 11</span>
+                    <span class="lab-name">Language Learning</span>
+                    <span class="lab-tech">jQuery · Контроль знань слів · Модальне вікно</span>
+                </div>
+                <div class="lab-arrow">→</div>
+            </a>
+        </nav>
+
+        <footer class="hub-footer">
+            ЧНУ ім. Петра Могили · ФКН · 121 «Інженерія програмного забезпечення»
+        </footer>
+    </div>
+</body>
+</html>

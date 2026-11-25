@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 169.075 244.64" width="169" height="245">
+  <rect x="2" y="2" width="165" height="240" rx="10" ry="10" fill="#ffffff" stroke="#222222" stroke-width="3"/>
+  <rect x="10" y="10" width="149" height="224" rx="6" ry="6" fill="#1b4f72"/>
+  <pattern id="pattern" width="16" height="16" patternUnits="userSpaceOnUse">
+    <path d="M 0,0 L 16,16 M 16,0 L 0,16" stroke="#2874a6" stroke-width="2"/>
+  </pattern>
+  <rect x="14" y="14" width="141" height="216" fill="url(#pattern)"/>
+  <circle cx="84.5" cy="122" r="32" fill="#ffffff" stroke="#1b4f72" stroke-width="3"/>
+  <text x="84.5" y="132" font-family="Arial, sans-serif" font-size="28" font-weight="bold" fill="#1b4f72" text-anchor="middle">21</text>
+</svg>

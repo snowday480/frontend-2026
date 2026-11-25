@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторна робота № 8 — Більше число</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1 class="game-title">Гра: Більше число</h1>
+        <p class="game-rules">Гра триває до 3 перемог одного з гравців</p>
+
+        <div class="game-board">
+
+            <div class="player-column">
+                <div class="player-name" id="user-name">User</div>
+                <div class="score-box" id="user-score">0</div>
+                <div class="number-circle" id="user-number">0</div>
+            </div>
+
+            <div class="center-column">
+                <button id="generate-btn" class="btn-generate">Generate</button>
+            </div>
+
+
+            <div class="player-column">
+                <div class="player-name" id="comp-name">Computer</div>
+                <div class="score-box" id="comp-score">0</div>
+                <div class="number-circle" id="comp-number">0</div>
+            </div>
+        </div>
+
+
+        <div class="status-box" id="game-status">Натисніть "Generate" для початку раунду</div>
+        <button id="restart-btn" class="btn-restart" style="display: none;">Грати знову</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

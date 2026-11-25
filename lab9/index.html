@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторна робота № 9 — Гра «21»</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1 class="game-title">Гра «21»</h1>
+        <p class="game-rules">Перемагає той, у кого більша сума очок після 3 спроб</p>
+
+        <div class="game-board">
+            <div class="player-column">
+                <div class="player-name" id="user-name">User</div>
+                <div class="score-box" id="user-score">0</div>
+                <div class="card-wrapper">
+                    <img id="user-card" class="card-img" src="cards/back.svg" alt="Карта користувача">
+                </div>
+            </div>
+
+            <div class="center-column">
+                <div class="attempt-info" id="attempt-info">Спроба 0 з 3</div>
+                <button id="generate-btn" class="btn-generate">Generate</button>
+            </div>
+
+            <div class="player-column">
+                <div class="player-name" id="comp-name">Computer</div>
+                <div class="score-box" id="comp-score">0</div>
+                <div class="card-wrapper">
+                    <img id="comp-card" class="card-img" src="cards/back.svg" alt="Карта комп'ютера">
+                </div>
+            </div>
+        </div>
+
+        <div class="status-box" id="game-status">Натисніть "Generate" для взяття карти</div>
+        <button id="restart-btn" class="btn-restart" style="display: none;">Грати знову</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
