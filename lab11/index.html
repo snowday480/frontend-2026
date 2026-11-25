@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторна робота № 11 — Language Learning</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <h1 class="app-title">Language Learning</h1>
+            <p class="app-subtitle">Контроль вивчення слів</p>
+        </header>
+
+        <div class="word-card" id="word-card" title="Натисніть на картку для перевірки">
+            <div class="card-tag">English</div>
+            <div class="card-word" id="current-word">always</div>
+            <div class="card-hint">Натисніть на картку для перевірки</div>
+        </div>
+
+        <div class="nav-row">
+            <button class="nav-btn" id="prev-btn" title="Попереднє слово">←</button>
+            <span class="step-counter" id="step-indicator">1 / 10</span>
+            <button class="nav-btn" id="next-btn" title="Наступне слово">→</button>
+        </div>
+
+        <div class="input-block">
+            <div class="input-wrapper">
+                <input type="text" id="translation-input" placeholder="Введіть переклад..." autocomplete="off">
+                <button class="submit-btn" id="check-btn">Перевірити</button>
+            </div>
+            <div class="input-error-msg" id="error-message">Введіть переклад перед перевіркою</div>
+        </div>
+
+        <div class="stats-block">
+            <div class="stats-title">Статистика</div>
+            <div class="stats-row">
+                <div class="stat-box stat-correct">
+                    <span class="stat-label">Вірно</span>
+                    <span class="stat-num" id="correct-count">0</span>
+                </div>
+                <div class="stat-box stat-incorrect">
+                    <span class="stat-label">Невірно</span>
+                    <span class="stat-num" id="incorrect-count">0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-backdrop" id="results-modal" style="display: none;">
+        <div class="modal-window">
+            <h2 class="modal-heading">Тестування завершено</h2>
+
+            <div class="modal-score">
+                <span class="score-val" id="final-score">0 / 10</span>
+            </div>
+
+            <div class="modal-level-panel">
+                <div class="level-title" id="level-badge">Рівень знань</div>
+            </div>
+
+            <div class="modal-stats-row">
+                <span>Вірно: <strong id="modal-correct">0</strong></span>
+                <span>Невірно: <strong id="modal-incorrect">0</strong></span>
+            </div>
+
+            <button class="restart-button" id="restart-btn">Почати знову</button>
+        </div>
+    </div>
+
+    <script src="jquery.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
