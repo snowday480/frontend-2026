@@ -1,4 +1,4 @@
-# Ігноруємо всі файли та старі папки, крім lab8, lab9, lab10, lab11, головного index.html та README
+# Ігноруємо всі файли та старі папки, крім lab8, lab9, lab10, lab11, lab12, головного index.html та README
 /*
 !/lab8
 !/lab8/**
@@ -8,6 +8,8 @@
 !/lab10/**
 !/lab11
 !/lab11/**
+!/lab12
+!/lab12/**
 !/index.html
 !/README.md
 !/.gitignore
